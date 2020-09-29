@@ -119,8 +119,44 @@ d3.csv("assets/data/data.csv").then(function (data) {
         .attr("cy", d => yLinearScale(d.healthcare))
         .attr("r", "10")
         .attr("fill", "lightblue")
-        .attr("dx", function(d){return -20})
-        .text(function(d){return d.state});
+
+    chartGroup.selectAll("text")
+        .data(data)
+        .enter()
+        .append("text")
+        .attr("dx", d => xLinearScale(d.poverty))
+        .attr("dy", d => yLinearScale(d.healthcare))
+        .attr("r", "9")
+        .attr("fill", "black")
+        .text(function (d) { return d.abbr });
+        console.log(circlesGroup);
+
+    // Step 1: Append tooltip div
+    var toolTip = d3.select("body")
+        .append("div")
+        .classed("tooltip", true);
+
+    // Create "mouseover" event listener to display tooltip
+    // circlesGroup.on("mouseover", function (d) {
+    //     toolTip.style("display", "block")
+    //         .html(
+    //             `<strong>${dateFormatter(d.date)}<strong><hr>${d.medals}
+    //           medal(s) won`)
+    //         .style("left", d3.event.pageX + "px")
+    //         .style("top", d3.event.pageY + "px");
+    // })
+
+    // Step 3: Create "mouseout" event listener to hide tooltip
+    //   .on("mouseout", function() {
+    //     toolTip.style("display", "none");
+    //   });
+
+    /* Create the text for each block */
+    // circlesGroup
+    //     .enter()
+    //     .attr("dx", function (d) { return -20 })
+    //     .text(function (d) { return d.abbr });
+
 
     // Create axes labels
     chartGroup.append("text")
@@ -135,6 +171,22 @@ d3.csv("assets/data/data.csv").then(function (data) {
         .attr("transform", `translate(${width / 2}, ${height + margin.top + 30})`)
         .attr("class", "axisText")
         .text("In Poverty (%)");
+
+    /*Create and place the "blocks" containing the circle and the text */
+    // var elemEnter = elem.enter()
+    //     .append("g")
+    //     .attr("transform", function (d) { return "translate(" + d.abbr + ",80)" })
+
+    /*Create the circle for each block */
+    // var circle = elemEnter.append("circle")
+    //     .attr("r", function (d) { return d.abbr })
+    //     .attr("stroke", "black")
+    //     .attr("fill", "white")
+
+    // /* Create the text for each block */
+    // elemEnter.append("text")
+    //     .attr("dx", function (d) { return -20 })
+
 
 }).catch(function (error) {
     console.log(error);
